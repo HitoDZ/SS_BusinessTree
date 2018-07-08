@@ -18,19 +18,24 @@ namespace SqlInteraction.DbDataInitializers
             for (int i = 0; i < majorLevelsAmount; i++)
             {
                 parent = initializeLevel();
-                recursivelyInitialize(parent, childLevelsAmount, nestingPow);
+                dbContext.Levels.Add(parent);
+                recursivelyInitialize(parent, childLevelsAmount, --nestingPow);
             }
+            dbContext.SaveChanges();
         }
 
         private void recursivelyInitialize(Level parent,int levelsAmount, int nestingPow)
         {
+            Level current;
             for (int i = 0; i < levelsAmount; i++)
             {
-                Level current = initializeLevel();
+                current = initializeLevel();
                 current.Parent = parent;
+                dbContext.Levels.Add(current);
                 if (nestingPow != 0)
                 {
-                    recursivelyInitialize(current, levelsAmount, nestingPow--);
+                    int currNestingPow = nestingPow - 1;
+                    recursivelyInitialize(current, levelsAmount, currNestingPow);
                 }
             }
         }
@@ -39,6 +44,7 @@ namespace SqlInteraction.DbDataInitializers
         {
             Level level = new Level();
             level.Name = DataGenerator.GenerateString(DataGeneratingType.Word);
+            //level.LevelId = DataGenerator.GenerateNumber();
             return level;
         }
     }
