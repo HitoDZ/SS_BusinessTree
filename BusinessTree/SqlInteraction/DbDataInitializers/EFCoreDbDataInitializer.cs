@@ -15,9 +15,6 @@ namespace SqlInteraction.DbDataInitializers
         public void InsertLevels(int majorLevelsAmount, int childLevelsAmount,int nestingPow)
         {
             Level parent;
-            List<Level> currentLevelInstances = new List<Level>();
-
-
             for (int i = 0; i < majorLevelsAmount; i++)
             {
                 parent = initializeLevel();
@@ -41,7 +38,7 @@ namespace SqlInteraction.DbDataInitializers
         private Level initializeLevel()
         {
             Level level = new Level();
-            level.Name = DataGenerator.GenerateString();
+            level.Name = DataGenerator.GenerateString(DataGeneratingType.Word);
             return level;
         }
     }
