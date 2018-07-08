@@ -14,13 +14,35 @@ namespace SqlInteraction.DbDataInitializers
 
         public void InsertLevels(int majorLevelsAmount, int childLevelsAmount,int nestingPow)
         {
-            for(int i = 0; i < majorLevelsAmount; i++)
-            {
-                for(int j = 0; j < nestingPow; j++)
-                {
+            Level parent;
+            List<Level> currentLevelInstances = new List<Level>();
 
+
+            for (int i = 0; i < majorLevelsAmount; i++)
+            {
+                parent = initializeLevel();
+                recursivelyInitialize(parent, childLevelsAmount, nestingPow);
+            }
+        }
+
+        private void recursivelyInitialize(Level parent,int levelsAmount, int nestingPow)
+        {
+            for (int i = 0; i < levelsAmount; i++)
+            {
+                Level current = initializeLevel();
+                current.Parent = parent;
+                if (nestingPow != 0)
+                {
+                    recursivelyInitialize(current, levelsAmount, nestingPow--);
                 }
             }
+        }
+
+        private Level initializeLevel()
+        {
+            Level level = new Level();
+            level.Name = DataGenerator.GenerateString();
+            return level;
         }
     }
 }
