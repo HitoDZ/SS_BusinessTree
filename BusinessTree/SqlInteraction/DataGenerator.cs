@@ -50,6 +50,11 @@ namespace SqlInteraction
             return random.Next(maxValue);
         }
 
+        public static Int32 GenerateNumber(Int32 minValue,Int32 maxValue)
+        {
+            return random.Next(minValue, maxValue);
+        }
+
         public static string GenerateString(DataGeneratingType type)
         {
             switch (type)
@@ -68,9 +73,10 @@ namespace SqlInteraction
 
         private static string generateNumOrRandSet()
         {
-            if (random.Next() % 2 == 1)
+            int num = random.Next();
+            if (num % 2 == 1)
             {
-                return GenerateNumber().ToString();
+                return num.ToString();
             }
             else
             {
